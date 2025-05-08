@@ -1,0 +1,37 @@
+{
+    "name": "redcodede/captcha",
+    "autoload": {
+        "psr-4": {
+            "Redcodede\\Captcha\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Redcodede\\Captcha\\Tests\\": "tests"
+        }
+    },
+    "require": {
+        "statamic/cms": "^5.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "pixelfear/composer-dist-plugin": true
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "Captcha",
+            "description": "Captcha addon"
+        },
+        "laravel": {
+            "providers": [
+                "Redcodede\\Captcha\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
