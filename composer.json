@@ -1,5 +1,6 @@
 {
     "name": "redcodede/captcha",
+    "description": "A captcha plugin for forms, compatible with Statamic 5",
     "autoload": {
         "psr-4": {
             "Redcodede\\Captcha\\": "src"
@@ -11,6 +12,7 @@
         }
     },
     "require": {
+        "php": ">=8.2",
         "statamic/cms": "^5.0"
     },
     "require-dev": {
