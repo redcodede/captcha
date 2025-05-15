@@ -57,7 +57,7 @@ public function message(): string
 The message handles the error messages you may want to define in resources > lang.
 
 ### 3. Extend Rule to App Service Provider
-At the bottom of the __boot__ method your *Http/Providers/AppServiceProvider.php* add the following code.
+At the bottom of the __boot__ method of your *Http/Providers/AppServiceProvider.php* add the following code.
 
 <code>
 /*
