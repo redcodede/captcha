@@ -11,7 +11,7 @@ This addon does:
 
 ## Accessibility Notice
 Please note that this captcha requires vision to solve.
-This captcha provides an image with a 4-character string that needs to entered in the coresponding form field.
+This captcha provides an image with a 4-character string that needs to be entered in the coresponding form field.
 
 ## How to Install
 
