@@ -9,6 +9,10 @@ This addon does:
 - Provide Captcha Image
 - Provide Tags to use in your Forms
 
+## Accessibility Notice
+Please note that this captcha requires vision to solve.
+This captcha provides an image with a 4-character string that needs to entered in the coresponding form field.
+
 ## How to Install
 
 You can search for this addon in the `Tools > Addons` section of the Statamic control panel and click **install**, or run the following command from your project root:
@@ -43,9 +47,7 @@ public function passes($attribute, mixed $value): bool
     }
 
 }
-</code>
 
-<code>
 public function message(): string
 {
     return '__(validation.verify_captcha)';
@@ -54,10 +56,22 @@ public function message(): string
 
 The message handles the error messages you may want to define in resources > lang.
 
-### 3. Add your form field
-Your form need to contain a text form field with the validation rules `required` and `captcha`.
+### 3. Extend Rule to App Service Provider
+At the bottom of the __boot__ method your *Http/Providers/AppServiceProvider.php* add the following code.
 
-### 4. Include the captcha into your form template
+<code>
+/*
+ * Make Captcha Validation available to Statamic
+ * */
+Validator::extend('captcha', function ($attribute, $value, $parameters, $validator) {
+    return (new VerifyCaptcha())->passes($attribute, $value);
+});
+</code>
+
+### 4. Add your form field
+Your form needs to contain a text form field with the validation rules `required` and `captcha`.
+
+### 5. Include the captcha into your form template
 The form template should include the `{{ refresh_captcha }}` tag to generate a new captcha on reloading the form to get a fresh one every time.
 
 Your form field template should include an img tag with the src of `{{ captcha_image }}`. 
