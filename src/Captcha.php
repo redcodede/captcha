@@ -25,7 +25,8 @@ class Captcha
     {
         self::$phraseBuilder = new PhraseBuilder(4, '0123456789');
         Captcha::$builder = new CaptchaBuilder(null, self::$phraseBuilder);
-//        Captcha::$builder->build();
+        Captcha::$builder->setDistortion(false);
+        Captcha::$builder->setScatterEffect(false);
         Captcha::$builder->buildAgainstOCR($width = 150, $height = 40, $font = null);
     }
 
