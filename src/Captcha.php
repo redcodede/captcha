@@ -23,9 +23,10 @@ class Captcha
 
     public static function newBuild()
     {
-        self::$phraseBuilder = new PhraseBuilder(4, 'acdefgikmnop123456789');
+        self::$phraseBuilder = new PhraseBuilder(4, '0123456789');
         Captcha::$builder = new CaptchaBuilder(null, self::$phraseBuilder);
-        Captcha::$builder->build();
+//        Captcha::$builder->build();
+        Captcha::$builder->buildAgainstOCR($width = 150, $height = 40, $font = null);
     }
 
     public static function storeCaptchaImage()
