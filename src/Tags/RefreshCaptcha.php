@@ -2,7 +2,7 @@
 
 namespace Redcodede\Captcha\Tags;
 
-use Redcodede\Captcha\Captcha;
+use Redcodede\Captcha\Captcha as CaptchaService;
 use Statamic\Tags\Tags;
 
 /**
@@ -18,13 +18,12 @@ class RefreshCaptcha extends Tags
      *
      * @return string|array
      */
-    public function index()
+    public function index(): string
     {
-        try {
-            Captcha::refreshCaptcha();
-        } catch (\Exception $e) {
-            // do nothing
-        }
+        /** @var CaptchaService $captcha */
+        $captcha = app(CaptchaService::class);
+
+        return $captcha->refreshImage();
     }
 
 }

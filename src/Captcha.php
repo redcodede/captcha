@@ -4,67 +4,74 @@ namespace Redcodede\Captcha;
 
 use Gregwar\Captcha\CaptchaBuilder;
 use Gregwar\Captcha\PhraseBuilder;
-use Redcodede\Captcha\Tags\RefreshCaptcha;
+use Illuminate\Contracts\Session\Session;
 
 class Captcha
 {
+    private const SESSION_KEY = 'redcodede.captcha.phrase';
 
-    private static $builder;
-    private static $phraseBuilder;
+    public function __construct(
+        private readonly Session $session,
+    ) {}
 
-    public function __construct()
+    public function image(): string
     {
-        if (session_status() !== PHP_SESSION_ACTIVE || session_status() === PHP_SESSION_NONE) session_start();
-        if (isset($_SESSION['captcha']) && $_SESSION['captcha'] != null) return;
+        $phrase = $this->session->get(self::SESSION_KEY);
 
-        self::newBuild();
-        self::refreshCaptcha();
+        if (! is_string($phrase) || $phrase === '') {
+           return $this->refreshImage();
+        }
+
+        return $this->buildImage($phrase);
     }
 
-    public static function newBuild()
+    public function refreshImage(): string
     {
-        self::$phraseBuilder = new PhraseBuilder(4, '0123456789');
-        Captcha::$builder = new CaptchaBuilder(null, self::$phraseBuilder);
-        Captcha::$builder->setDistortion(false);
-        Captcha::$builder->setScatterEffect(false);
-        Captcha::$builder->buildAgainstOCR($width = 150, $height = 40, $font = null);
+        $builder = $this->makeBuilder();
+
+        $this->session->put(self::SESSION_KEY, $builder->getPhrase());
+
+        return $builder->inline();
     }
 
-    public static function storeCaptchaImage()
+    public function verify(?string $userInput, bool $forgetOnSuccess = true): bool
     {
-        return $_SESSION['captcha'] = self::$builder->inline();
-    }
+        $storedPhrase = $this->session->get(self::SESSION_KEY);
 
-    public static function outputCaptchaImage()
-    {
-        return self::$builder->inline();
-    }
-
-    public static function storeCaptchaPhrase()
-    {
-        return $_SESSION['phrase'] = self::$builder->getPhrase();
-    }
-
-    public static function outputCaptchaPhrase()
-    {
-        return self::$builder->getPhrase();
-    }
-
-    public static function refreshCaptcha()
-    {
-        if (Captcha::$builder == null) self::newBuild();
-        $_SESSION['phrase'] = null;
-        $_SESSION['captcha'] = null;
-        self::storeCaptchaImage();
-        self::storeCaptchaPhrase();
-    }
-
-    public function verifyCaptcha($userInput)
-    {
-        try {
-            return self::$builder->testPhrase($userInput);
-        } catch (Exception $e) {
+        if (! is_string($storedPhrase) || $storedPhrase === '') {
             return false;
         }
+
+        $normalizedInput = trim((string) $userInput);
+
+        $isValid = hash_equals($storedPhrase, $normalizedInput);
+
+        if ($isValid && $forgetOnSuccess) {
+            $this->clear();
+        }
+
+        return $isValid;
+    }
+
+    public function clear(): void
+    {
+        $this->session->forget(self::SESSION_KEY);
+    }
+
+    private function buildImage(string $phrase): string
+    {
+        return $this->makeBuilder($phrase)->inline();
+    }
+
+    public static function makeBuilder(?string $phrase = null): CaptchaBuilder
+    {
+        $phraseBuilder = new PhraseBuilder(4, '0123456789');
+
+        $builder = new CaptchaBuilder(null, $phraseBuilder);
+        $builder->setDistortion(false);
+        $builder->setScatterEffect(false);
+        $builder->buildAgainstOCR($width = 150, $height = 40, $font = null);
+
+        return $builder;
     }
 }

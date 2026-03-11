@@ -5,17 +5,24 @@ namespace Redcodede\Captcha;
 use Statamic\Providers\AddonServiceProvider;
 use Redcodede\Captcha\Tags\RefreshCaptcha;
 use Redcodede\Captcha\Tags\CaptchaImage;
+use Illuminate\Contracts\Session\Session;
 
 class ServiceProvider extends AddonServiceProvider
 {
-    public $captcha;
-
     protected $tags = [
         RefreshCaptcha::class,
         CaptchaImage::class,
     ];
-    public function bootAddon()
+
+    public function register(): void
     {
-        $this->captcha = new Captcha();
+        $this->app->singleton(Captcha::class, function ($app) {
+            return new Captcha($app->make(Session::class));
+        });
+    }
+
+    public function bootAddon(): void
+    {
+        //
     }
 }
