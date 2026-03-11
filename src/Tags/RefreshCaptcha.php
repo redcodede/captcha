@@ -23,7 +23,9 @@ class RefreshCaptcha extends Tags
         /** @var CaptchaService $captcha */
         $captcha = app(CaptchaService::class);
 
-        return $captcha->refreshImage();
+        $captcha->refreshImage();
+
+        return '';
     }
 
 }
