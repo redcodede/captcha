@@ -56,17 +56,8 @@ public function message(): string
 
 The message handles the error messages you may want to define in resources > lang.
 
-### 3. Extend Rule to App Service Provider
-At the bottom of the __boot__ method of your *Http/Providers/AppServiceProvider.php* add the following code.
-
-<code>
-/*
- * Make Captcha Validation available to Statamic
- * */
-Validator::extend('captcha', function ($attribute, $value, $parameters, $validator) {
-    return (new VerifyCaptcha())->passes($attribute, $value);
-});
-</code>
+__Extending App Service Provider__
+Extending the App Service Provider is no longer necessary.
 
 ### 4. Add your form field
 Your form needs to contain a text form field with the validation rules `required` and `captcha`.
@@ -76,5 +67,8 @@ The form template should include the `{{ refresh_captcha }}` tag to generate a n
 
 Your form field template should include an img tag with the src of `{{ captcha_image }}`. 
 This that will provide you with the image URL.
+
+You can also add a button which will let the user generate another captcha image.
+`<button type="button" data-refresh-url="{{ captcha_refresh_url }}">generate new captcha image</button>`
 
 Now you should be all set to use the Captcha on your own Website.
