@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c343b5e3-9868-480a-a104-2408fa54684c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Http/Controllers/RefreshCaptchaController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Tags/CaptchaRefreshUrl.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Captcha.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Captcha.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,7 +223,7 @@
       <workItem from="1747316745557" duration="3000" />
       <workItem from="1757319262251" duration="718000" />
       <workItem from="1773218630805" duration="4857000" />
-      <workItem from="1773306827115" duration="1651000" />
+      <workItem from="1773306827115" duration="5337000" />
     </task>
     <servers />
   </component>
